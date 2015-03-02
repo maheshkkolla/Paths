@@ -50,5 +50,22 @@ public class PathsTest {
 		Boolean has = paths.hasDirectPath("Singapore","Banglore");
 		assertEquals(has, true);
 	}
-
+	@Test
+	public void hasPath_returns_true_for_Banglore_and_Tokyo() {
+		String[] cities = {"Banglore","Singapore","Tokyo"};
+		Paths paths = new Paths(cities);
+		paths.addDirectPath("Banglore","Singapore");
+		paths.addDirectPath("Singapore","Tokyo");
+		Boolean has = paths.hasPath("Banglore","Tokyo");
+		assertEquals(has,true);
+	}
+	// @Test
+	// public void hasPath_returns_false_for_Banglore_and_Beijing() {
+	// 	String[] cities = {"Banglore","Singapore","Tokyo","Beijing"};
+	// 	Paths paths = new Paths(cities);
+	// 	paths.addDirectPath("Banglore","Singapore");
+	// 	paths.addDirectPath("Singapore","Tokyo");
+	// 	Boolean has = paths.hasPath("Banglore","Beijing");
+	// 	assertEquals(has,false);
+	// }
 }

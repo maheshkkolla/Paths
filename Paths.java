@@ -46,6 +46,18 @@ public class Paths  {
 		if(!city2Present) System.out.println("No City names \""+city2+"\" in Database");
 		return(city1Present && city2Present); 
 	}
+	public Boolean hasPath(String from, String to) {
+		if(hasDirectPath(from, to)) return true;
+		City fromCity = allCities.get(from);
+		List<String> directPaths = fromCity.directTo;
+		for (String city: directPaths) {
+			Boolean has = (hasPath(city, to) || false);
+			return has;
+		}
+		return false;
+	}
+
+
 	public static void  main(String[] args) {
 		String[] cities = {"Banglore","Singapore","Seoul","Beijing","Tokyo","Dubai"};
 		Paths paths = new Paths(cities);
