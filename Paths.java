@@ -48,8 +48,8 @@ public class Paths  {
 	}
 
 	public Boolean trackThePath(String from, String to, List<String> path) {
-		if(this.hasDirectPath(from, to)) return true;
 		path.add(from);
+		if(this.hasDirectPath(from, to)) return true;
 		for (String city: allCities.get(from).directTo) {
 			if(!path.contains(city)) {
 				if(trackThePath(city, to, path)) return true;
@@ -81,6 +81,7 @@ public class Paths  {
 		String[][] directPaths = new String[][] { {"Banglore", "Singapore"}, {"Singapore","Seoul"},
 			{"Singapore","Dubai"}, {"Seoul","Beijing"}, {"Beijing","Tokyo"}
 		};
+		// String[][] directPaths = new String[][] { {"Banglore", "Singapore"}, {"Singapore","Tokyo"}, {"Tokyo", "Chennai"}};
 		paths.addDirectPaths(directPaths);
 		if(paths.areCities(args[0], args[1])) {
 			String path = paths.getPath(args[0], args[1]);

@@ -78,4 +78,14 @@ public class PathsTest {
 		Boolean has = paths.hasPath("Banglore","Chennai");
 		assertEquals(has,true);
 	}
+	@Test
+	public void getPath_returns_the_path_from_Banglore_to_Chennai() {
+		String[] cities = {"Banglore","Singapore","Tokyo","Chennai"};
+		Paths paths = new Paths(cities);
+		paths.addDirectPath("Banglore","Singapore");
+		paths.addDirectPath("Singapore","Tokyo");
+		paths.addDirectPath("Tokyo","Chennai");
+		String path = paths.getPath("Banglore","Chennai");
+		assertEquals(path,"Banglore -> Singapore -> Tokyo -> Chennai");
+	}
 }
