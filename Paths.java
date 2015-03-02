@@ -51,8 +51,7 @@ public class Paths  {
 		City fromCity = allCities.get(from);
 		List<String> directPaths = fromCity.directTo;
 		for (String city: directPaths) {
-			Boolean has = (hasPath(city, to) || false);
-			return has;
+			return hasDirectPath(city, to);
 		}
 		return false;
 	}
