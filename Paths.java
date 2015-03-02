@@ -46,14 +46,22 @@ public class Paths  {
 		if(!city2Present) System.out.println("No City names \""+city2+"\" in Database");
 		return(city1Present && city2Present); 
 	}
-	public Boolean hasPath(String from, String to) {
-		if(hasDirectPath(from, to)) return true;
-		City fromCity = allCities.get(from);
-		List<String> directPaths = fromCity.directTo;
-		for (String city: directPaths) {
-			return hasDirectPath(city, to);
+
+	public Boolean trackThePath(String from, String to, List<String> path) {
+		Boolean result = false;
+		if(!path.contains(from)) {
+			if(this.hasDirectPath(from, to)) return true;
+			path.add(from);
+			for (String city: allCities.get(from).directTo) {
+				result = trackThePath(city, to, path);		
+			}
 		}
-		return false;
+		return result;
+	}
+
+	public Boolean hasPath(String from, String to) {
+		List<String> path = new ArrayList<String>();
+		return this.trackThePath(from, to, path);
 	}
 
 
