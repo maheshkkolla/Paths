@@ -48,15 +48,14 @@ public class Paths  {
 	}
 
 	public Boolean trackThePath(String from, String to, List<String> path) {
-		Boolean result = false;
-		if(!path.contains(from)) {
-			if(this.hasDirectPath(from, to)) return true;
-			path.add(from);
-			for (String city: allCities.get(from).directTo) {
-				result = trackThePath(city, to, path);		
+		if(this.hasDirectPath(from, to)) return true;
+		path.add(from);
+		for (String city: allCities.get(from).directTo) {
+			if(!path.contains(city)) {
+				if(trackThePath(city, to, path)) return true;
 			}
 		}
-		return result;
+		return false;
 	}
 
 	public Boolean hasPath(String from, String to) {
@@ -73,7 +72,7 @@ public class Paths  {
 		};
 		paths.addDirectPaths(directPaths);
 		if(paths.areCities(args[0], args[1])) {
-			Boolean a = paths.hasDirectPath(args[0], args[1]);
+			Boolean a = paths.hasPath(args[0], args[1]);
 			System.out.println(a);
 		}	
 	}	
