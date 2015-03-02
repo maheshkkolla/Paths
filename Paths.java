@@ -63,6 +63,17 @@ public class Paths  {
 		return this.trackThePath(from, to, path);
 	}
 
+	public String getPath(String from, String to) {
+		List<String> path = new ArrayList<String>();
+		if(! this.trackThePath(from, to, path)) return "false";
+		String wholePath = new String();
+		for (String city: path) {
+			wholePath = wholePath + city + " -> ";
+		}
+		wholePath += to;
+		return wholePath;
+	}
+
 
 	public static void  main(String[] args) {
 		String[] cities = {"Banglore","Singapore","Seoul","Beijing","Tokyo","Dubai"};
@@ -72,8 +83,8 @@ public class Paths  {
 		};
 		paths.addDirectPaths(directPaths);
 		if(paths.areCities(args[0], args[1])) {
-			Boolean a = paths.hasPath(args[0], args[1]);
-			System.out.println(a);
+			String path = paths.getPath(args[0], args[1]);
+			System.out.println(path);
 		}	
 	}	
 }
