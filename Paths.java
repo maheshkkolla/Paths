@@ -13,6 +13,14 @@ class City {
 	}
 }
 
+class CityNotFoundException extends Exception {
+	String message ;
+	CityNotFoundException(String city) {
+		this.message = "No City names \""+city+"\" in Database";
+		// super(this.message);
+	}
+}
+
 class Paths  {
 	Map<String, City> allCities = new Hashtable<String, City>();
 
@@ -44,8 +52,8 @@ class Paths  {
 	public Boolean areCities(String city1, String city2) {
 		Boolean city1Present = isCity(city1);
 		Boolean city2Present = isCity(city2);  
-		if(!city1Present) System.out.println("No City names \""+city1+"\" in Database");
-		if(!city2Present) System.out.println("No City names \""+city2+"\" in Database");
+		// if(!city1Present) System.out.println("No City names \""+city1+"\" in Database");
+		// if(!city2Present) System.out.println("No City names \""+city2+"\" in Database");
 		return(city1Present && city2Present); 
 	}
 
@@ -65,7 +73,9 @@ class Paths  {
 		return this.trackThePath(from, to, path);
 	}
 
-	public String getPath(String from, String to) {
+	public String getPath(String from, String to) throws CityNotFoundException {
+		if(!isCity(from)) throw new CityNotFoundException(from);
+		if(!isCity(to)) throw new CityNotFoundException(to);
 		List<String> path = new ArrayList<String>();
 		if(! this.trackThePath(from, to, path)) return "false";
 		String wholePath = new String();
@@ -96,7 +106,6 @@ class PathsProgram {
 		// 	System.out.println(path);
 		// }
 
-		//args[0]  --> -f     args[1]  --> fileName   args[2]  --> fromCity  args[3]  --> toCity
 		String text = new String("");
 		String[] fileText = null;
 		BufferedReader br = null;
@@ -116,9 +125,11 @@ class PathsProgram {
 			directPaths[i-1] = new String[] {dpaths[0].toString(), dpaths[1].toString()};
 		}
 		paths.addDirectPaths(directPaths);
-		if(paths.areCities(args[2], args[3])) {
+		try {
 			String path = paths.getPath(args[2], args[3]);
 			System.out.println(path);
+		} catch(CityNotFoundException e) {
+			System.out.println(e.message);
 		}
 
 	}	
