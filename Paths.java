@@ -1,4 +1,6 @@
 import java.util.*;
+import java.lang.*;
+import java.io.*;
 
 class City {
 	List<String> directTo = new ArrayList<String>();
@@ -11,7 +13,7 @@ class City {
 	}
 }
 
-public class Paths  {
+class Paths  {
 	Map<String, City> allCities = new Hashtable<String, City>();
 
 	public Paths(String[] cities) {
@@ -75,18 +77,50 @@ public class Paths  {
 	}
 
 
+	
+}
+
+class PathsProgram {
+
+
 	public static void  main(String[] args) {
-		String[] cities = {"Banglore","Singapore","Seoul","Beijing","Tokyo","Dubai"};
+		// String[] cities = {"Banglore","Singapore","Seoul","Beijing","Tokyo","Dubai"};
+		// Paths paths = new Paths(cities);
+		// String[][] directPaths = new String[][] { {"Banglore", "Singapore"}, {"Singapore","Seoul"},
+		// 	{"Singapore","Dubai"}, {"Seoul","Beijing"}, {"Beijing","Tokyo"}
+		// };
+		// // String[][] directPaths = new String[][] { {"Banglore", "Singapore"}, {"Singapore","Tokyo"}, {"Tokyo", "Chennai"}};
+		// paths.addDirectPaths(directPaths);
+		// if(paths.areCities(args[0], args[1])) {
+		// 	String path = paths.getPath(args[0], args[1]);
+		// 	System.out.println(path);
+		// }
+
+		//args[0]  --> -f     args[1]  --> fileName   args[2]  --> fromCity  args[3]  --> toCity
+		String text = new String("");
+		String[] fileText = null;
+		BufferedReader br = null;
+		try{
+			br = new BufferedReader(new FileReader(args[1]));
+			String currentLine;
+			while((currentLine = br.readLine()) != null) text = text + currentLine + "\r\n"; 
+			fileText = text.split("\r\n");
+		} catch(Exception e) {
+			System.out.println("Error: " + e);
+		}
+		String[] cities = fileText[0].split(",");
 		Paths paths = new Paths(cities);
-		String[][] directPaths = new String[][] { {"Banglore", "Singapore"}, {"Singapore","Seoul"},
-			{"Singapore","Dubai"}, {"Seoul","Beijing"}, {"Beijing","Tokyo"}
-		};
-		// String[][] directPaths = new String[][] { {"Banglore", "Singapore"}, {"Singapore","Tokyo"}, {"Tokyo", "Chennai"}};
+		String[][] directPaths = new String[fileText.length-1][2];
+		for (int i = 1;i < fileText.length ;i++ ) {
+			String[] dpaths = fileText[i].split(",");
+			directPaths[i-1] = new String[] {dpaths[0].toString(), dpaths[1].toString()};
+		}
 		paths.addDirectPaths(directPaths);
-		if(paths.areCities(args[0], args[1])) {
-			String path = paths.getPath(args[0], args[1]);
+		if(paths.areCities(args[2], args[3])) {
+			String path = paths.getPath(args[2], args[3]);
 			System.out.println(path);
-		}	
+		}
+
 	}	
 }
 
