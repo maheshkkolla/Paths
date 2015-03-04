@@ -19,7 +19,7 @@ public class RecordsTest {
 		Records records = new Records();
 		records.addPath(new City("Banglore"), new City("Singapore"));
 		try{
-			assertTrue(records.hasDirectPath(new City("Banglore"), new City("Singapore")));	
+			assertTrue(records.hasDirectPath(records.getCityFromName("Banglore"),records.getCityFromName("Singapore")));	
 		} catch(Exception e){
 			assertTrue(false);
 		}
@@ -30,7 +30,7 @@ public class RecordsTest {
 		records.addCityToRecords(new City("Banglore"));
 		records.addCityToRecords(new City("Singapore"));
 		try{
-			assertFalse(records.hasDirectPath(new City("Banglore"), new City("Banglore")));
+			assertFalse(records.hasDirectPath(records.getCityFromName("Banglore"),records.getCityFromName("Banglore")));
 		} catch(Exception e) {
 			assertTrue(false);
 		}
@@ -39,7 +39,7 @@ public class RecordsTest {
 	public void hasDirectPath_gives_exception_if_the_city_not_present_in_records() {
 		Records records = new Records();
 		try{
-			records.hasDirectPath(new City("Banglore"), new City("Singapore"));
+			records.hasDirectPath(records.getCityFromName("Banglore"), records.getCityFromName("Singapore"));
 		} catch(CityNotFoundException e) {
 			assertEquals(e.message, "No City names \"Banglore\" in Database");
 		}
@@ -49,7 +49,7 @@ public class RecordsTest {
 		Records records = new Records();
 		records.addPath(new City("Banglore"), new City("Singapore"));
 		try {
-			assertTrue(records.hasDirectPath(new City("Singapore"), new City("Banglore")));
+			assertTrue(records.hasDirectPath(records.getCityFromName("Singapore"), records.getCityFromName("Banglore")));
 		} catch(CityNotFoundException e) {
 			assertFalse(true);
 		}
@@ -63,7 +63,7 @@ public class RecordsTest {
  		records.addPath(banglore, singapore);
 		records.addPath(singapore, seoul);
 		try{
-			assertTrue(records.hasPath(banglore, seoul));
+			assertTrue(records.hasPath(records.getCityFromName("Banglore"),records.getCityFromName("Seoul")));
 		}catch(CityNotFoundException e){
 			assertTrue(false);
 		}
@@ -77,7 +77,7 @@ public class RecordsTest {
 		records.addCityToRecords(seoul);
  		records.addPath(banglore, singapore);
 		try{
-			assertFalse(records.hasPath(banglore, seoul));
+			assertFalse(records.hasPath(records.getCityFromName("Banglore"),records.getCityFromName("Seoul")));
 		}catch(CityNotFoundException e){
 			assertTrue(false);
 		}
@@ -91,7 +91,7 @@ public class RecordsTest {
  		records.addPath(banglore, singapore);
 		records.addPath(singapore, seoul);
 		try{
-			assertTrue(records.hasPath(seoul, banglore));
+			assertTrue(records.hasPath(records.getCityFromName("Seoul"),records.getCityFromName("Banglore")));
 		}catch(CityNotFoundException e){
 			assertTrue(false);
 		}
@@ -103,7 +103,7 @@ public class RecordsTest {
 		City singapore = new City("Singapore");
 		records.addPath(banglore, singapore);
 		try{
-			String path = records.getPath(banglore, singapore);
+			String path = records.getPath(records.getCityFromName("Banglore"),records.getCityFromName("Singapore"));
 			assertEquals(path, "Banglore -> Singapore");
 		} catch(CityNotFoundException e) {
 			assertTrue(false);
@@ -116,7 +116,7 @@ public class RecordsTest {
 		City singapore = new City("Singapore");
 		records.addPath(banglore, singapore);
 		try{
-			String path = records.getPath(singapore, banglore);
+			String path = records.getPath(records.getCityFromName("Singapore"),records.getCityFromName("Banglore"));
 			assertEquals(path, "Singapore -> Banglore");
 		} catch(CityNotFoundException e) {
 			assertTrue(false);
@@ -131,7 +131,7 @@ public class RecordsTest {
 		records.addPath(banglore, singapore);
 		records.addPath(singapore,seoul);
 		try{
-			String path = records.getPath(banglore, seoul);
+			String path = records.getPath(records.getCityFromName("Banglore"),records.getCityFromName("Seoul"));
 			assertEquals(path, "Banglore -> Singapore -> Seoul");
 		} catch(CityNotFoundException e) {
 			assertTrue(false);
@@ -146,7 +146,7 @@ public class RecordsTest {
 		records.addPath(banglore, singapore);
 		records.addPath(singapore,seoul);
 		try{
-			String path = records.getPath(seoul, banglore);
+			String path = records.getPath(records.getCityFromName("Seoul"),records.getCityFromName("Banglore"));
 			assertEquals(path, "Seoul -> Singapore -> Banglore");
 		} catch(CityNotFoundException e) {
 			assertTrue(false);

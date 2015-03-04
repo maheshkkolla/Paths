@@ -5,9 +5,7 @@ public class Records {
 	List<Path> allPaths = new ArrayList<Path>();
 	List<City> allCities = new ArrayList<City>();
 
-	public Boolean hasDirectPath(City from, City to) throws CityNotFoundException{
-		if(!isCityPresent(from)) throw new CityNotFoundException(from.name);
-		if(!isCityPresent(to)) throw new CityNotFoundException(to.name); 
+	public Boolean hasDirectPath(City from, City to) {
 		return (allPaths.contains(new Path(from, to)) || allPaths.contains(new Path(to, from)));
 	}
 
@@ -34,7 +32,7 @@ public class Records {
 		return paths;
 	}
 
-	public Boolean hasDirectOrLinkedPath(City from, City to) throws CityNotFoundException {
+	public Boolean hasDirectOrLinkedPath(City from, City to) {
 		if(hasDirectPath(from, to)) return true;
 		List<Path> pathsFrom = getAllPathsFrom(from);
 		for (Path path: pathsFrom) {
@@ -47,7 +45,7 @@ public class Records {
 		return (hasDirectOrLinkedPath(from, to) || hasDirectOrLinkedPath(to, from));
 	}
 
-	public List<String> getDirectOrLinkedPath(City from, City to, List<String> wholePath)throws CityNotFoundException {
+	public List<String> getDirectOrLinkedPath(City from, City to, List<String> wholePath) {
 		if(hasDirectPath(from, to))	{
 			wholePath.add(from.name);
 			return wholePath;
@@ -60,14 +58,14 @@ public class Records {
 		return null;
 	}
 
-	public List<String> getNormalPath(City from, City to)throws CityNotFoundException {
+	public List<String> getNormalPath(City from, City to) {
 		List<String> pathListInStrings = new ArrayList<String>();
 		pathListInStrings = getDirectOrLinkedPath(from, to, pathListInStrings);
 		pathListInStrings.add(to.name);
 		return pathListInStrings;
 	}
 
-	public List<String> getReversePath(City from, City to)throws CityNotFoundException {
+	public List<String> getReversePath(City from, City to) {
 		List<String> pathListInStrings = new ArrayList<String>();
 		pathListInStrings = getDirectOrLinkedPath(to,from, pathListInStrings);
 		pathListInStrings.add(from.name);
@@ -87,11 +85,18 @@ public class Records {
 		return path;
 	}
 
-	public String getPath(City from, City to) throws CityNotFoundException {
+	public String getPath(City from, City to) {
 		if(from.equals(to)) return(from.name + " -> " + to.name);
 		if(hasDirectOrLinkedPath(from, to))
 			return getPathAsString(getNormalPath(from, to));
 		return getPathAsString(getReversePath(from, to));
+	}
+
+	public City getCityFromName(String name) throws CityNotFoundException{
+		for (City city: allCities) {
+			if(city.name.equals(name)) return city;
+		}
+		throw new CityNotFoundException(name);
 	}
 
 }
