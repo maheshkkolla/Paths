@@ -10,7 +10,7 @@ public class Paths {
 		records.addPath(new City("Seoul"), new City("Beijing"));
 		records.addPath(new City("Beijing"), new City("Tokyo"));
 		try{
-			System.out.println(records.hasDirectPath(new City(args[0]),  new City(args[1])));	
+			System.out.println(records.hasPath(new City(args[0]),  new City(args[1])));	
 		} catch(CityNotFoundException exc){
 			System.out.println(exc.message);
 		}

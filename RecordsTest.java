@@ -54,4 +54,48 @@ public class RecordsTest {
 			assertFalse(true);
 		}
 	}
+	@Test
+	public void hasPath_returns_true_if_the_two_cities_contains_direct_or_linked_paths() {
+		Records records = new Records();
+		City banglore = new City("Banglore");
+		City singapore = new City("Singapore");
+		City seoul = new City("Seoul");
+ 		records.addPath(banglore, singapore);
+		records.addPath(singapore, seoul);
+		try{
+			assertTrue(records.hasPath(banglore, seoul));
+		}catch(CityNotFoundException e){
+			assertTrue(false);
+		}
+	}
+	@Test
+	public void hasPath_returns_false_if_the_two_cities_doesnt_contains_direct_or_linked_paths() {
+		Records records = new Records();
+		City banglore = new City("Banglore");
+		City singapore = new City("Singapore");
+		City seoul = new City("Seoul");
+		records.addCityToRecords(seoul);
+ 		records.addPath(banglore, singapore);
+		try{
+			assertFalse(records.hasPath(banglore, seoul));
+		}catch(CityNotFoundException e){
+			assertTrue(false);
+		}
+	}
+	@Test
+	public void hasPath_returns_true_if_the_two_cities_contains_direct_or_linked_paths_in_reverse_also() {
+		Records records = new Records();
+		City banglore = new City("Banglore");
+		City singapore = new City("Singapore");
+		City seoul = new City("Seoul");
+ 		records.addPath(banglore, singapore);
+		records.addPath(singapore, seoul);
+		try{
+			assertTrue(records.hasPath(seoul, banglore));
+		}catch(CityNotFoundException e){
+			assertTrue(false);
+		}
+	}
+
+
 }

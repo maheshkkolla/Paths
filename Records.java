@@ -25,6 +25,27 @@ public class Records {
 		return allCities.contains(city);
 	}
 
+	public List<Path> getAllPathsFrom(City city) {
+		List<Path> paths = new ArrayList<Path>();
+		for (Path path: allPaths) {
+			if(path.from.equals(city)) paths.add(path);
+			// if(path.to.equals(city)) paths.add(path);			
+		}
+		return paths;
+	}
+
+	public Boolean hasDirectOrLinkedPath(City from, City to) throws CityNotFoundException {
+		if(hasDirectPath(from, to)) return true;
+		List<Path> pathsFrom = getAllPathsFrom(from);
+		for (Path path: pathsFrom) {
+			return hasPath(path.to , to);
+		}
+		return false;
+	}
+
+	public Boolean hasPath(City from, City to) throws CityNotFoundException{
+		return (hasDirectOrLinkedPath(from, to) || hasDirectOrLinkedPath(to, from));
+	}
 
 }
 
