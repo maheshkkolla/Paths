@@ -96,6 +96,62 @@ public class RecordsTest {
 			assertTrue(false);
 		}
 	}
+	@Test
+	public void getPath_returns_directPath_between_two_cities() {
+		Records records = new Records();
+		City banglore = new City("Banglore");
+		City singapore = new City("Singapore");
+		records.addPath(banglore, singapore);
+		try{
+			String path = records.getPath(banglore, singapore);
+			assertEquals(path, "Banglore -> Singapore");
+		} catch(CityNotFoundException e) {
+			assertTrue(false);
+		}
+	}
+	@Test
+	public void getPath_returns_directPath_between_two_cities_in_even_input_in_reverse_order() {
+		Records records = new Records();
+		City banglore = new City("Banglore");
+		City singapore = new City("Singapore");
+		records.addPath(banglore, singapore);
+		try{
+			String path = records.getPath(singapore, banglore);
+			assertEquals(path, "Singapore -> Banglore");
+		} catch(CityNotFoundException e) {
+			assertTrue(false);
+		}
+	}
+	@Test
+	public void getPath_returns_Path_between_two_cities() {
+		Records records = new Records();
+		City banglore = new City("Banglore");
+		City singapore = new City("Singapore");
+		City seoul = new City("Seoul");
+		records.addPath(banglore, singapore);
+		records.addPath(singapore,seoul);
+		try{
+			String path = records.getPath(banglore, seoul);
+			assertEquals(path, "Banglore -> Singapore -> Seoul");
+		} catch(CityNotFoundException e) {
+			assertTrue(false);
+		}
+	}
+	@Test
+	public void getPath_returns_path_between_two_cities_in_even_input_in_reverse_order() {
+		Records records = new Records();
+		City banglore = new City("Banglore");
+		City singapore = new City("Singapore");
+		City seoul = new City("Seoul");
+		records.addPath(banglore, singapore);
+		records.addPath(singapore,seoul);
+		try{
+			String path = records.getPath(seoul, banglore);
+			assertEquals(path, "Seoul -> Singapore -> Banglore");
+		} catch(CityNotFoundException e) {
+			assertTrue(false);
+		}
+	}
 
 
 }

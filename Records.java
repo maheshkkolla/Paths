@@ -38,13 +38,60 @@ public class Records {
 		if(hasDirectPath(from, to)) return true;
 		List<Path> pathsFrom = getAllPathsFrom(from);
 		for (Path path: pathsFrom) {
-			return hasPath(path.to , to);
+			return hasDirectOrLinkedPath(path.to , to);
 		}
 		return false;
 	}
 
 	public Boolean hasPath(City from, City to) throws CityNotFoundException{
 		return (hasDirectOrLinkedPath(from, to) || hasDirectOrLinkedPath(to, from));
+	}
+
+	public List<String> getDirectOrLinkedPath(City from, City to, List<String> wholePath)throws CityNotFoundException {
+		if(hasDirectPath(from, to))	{
+			wholePath.add(from.name);
+			return wholePath;
+		}
+		List<Path> pathsFrom = getAllPathsFrom(from);
+		for (Path path: pathsFrom) {
+			wholePath.add(path.from.name);
+			return getDirectOrLinkedPath(path.to , to, wholePath);
+		}
+		return null;
+	}
+
+	public List<String> getNormalPath(City from, City to)throws CityNotFoundException {
+		List<String> pathListInStrings = new ArrayList<String>();
+		pathListInStrings = getDirectOrLinkedPath(from, to, pathListInStrings);
+		pathListInStrings.add(to.name);
+		return pathListInStrings;
+	}
+
+	public List<String> getReversePath(City from, City to)throws CityNotFoundException {
+		List<String> pathListInStrings = new ArrayList<String>();
+		pathListInStrings = getDirectOrLinkedPath(to,from, pathListInStrings);
+		pathListInStrings.add(from.name);
+		List<String> resultList = new ArrayList<String>();
+		for (int i = pathListInStrings.size()-1; i>=0 ;i--) {
+			resultList.add(pathListInStrings.get(i));
+		}
+		return resultList;
+	}
+
+	public String getPathAsString(List<String> pathList) {
+		String path = new String("");
+		for (String cityInPath: pathList) {
+			if(path.equals("")) path += cityInPath;
+			else path = path + " -> " + cityInPath;
+		}
+		return path;
+	}
+
+	public String getPath(City from, City to) throws CityNotFoundException {
+		if(from.equals(to)) return(from.name + " -> " + to.name);
+		if(hasDirectOrLinkedPath(from, to))
+			return getPathAsString(getNormalPath(from, to));
+		return getPathAsString(getReversePath(from, to));
 	}
 
 }
