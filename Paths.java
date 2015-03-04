@@ -4,13 +4,18 @@ import java.io.*;
 public class Paths {
 	public static void  main(String[] args) {
 		Records records = new Records();
-		City city1 = new City(args[0]);
-		City city2 = new City(args[1]);
 		records.addPath(new City("Banglore"), new City("Singapore"));
-		System.out.println(records.hasDirectPath(city1, city2));
+		records.addPath(new City("Singapore"), new City("Seoul"));
+		records.addPath(new City("Singapore"), new City("Dubai"));
+		records.addPath(new City("Seoul"), new City("Beijing"));
+		records.addPath(new City("Beijing"), new City("Tokyo"));
+		try{
+			System.out.println(records.hasDirectPath(new City(args[0]),  new City(args[1])));	
+		} catch(CityNotFoundException exc){
+			System.out.println(exc.message);
+		}
 	}
 }
-
 
 
 
