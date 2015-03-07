@@ -3,21 +3,55 @@ import java.lang.*;
 import java.io.*;
 public class Paths {
 	public static void  main(String[] args) {
-		Records records = new Records();
-		records.addPath(new City("Banglore"), new City("Singapore"));
-		records.addPath(new City("Singapore"), new City("Seoul"));
-		records.addPath(new City("Singapore"), new City("Dubai"));
-		records.addPath(new City("Seoul"), new City("Beijing"));
-		records.addPath(new City("Beijing"), new City("Tokyo"));
+		PathCreator.createPath("Bangalore", "Singapore");
+		PathCreator.createPath("Singapore", "Seoul");
+		PathCreator.createPath("Singapore", "Dubai");
+		PathCreator.createPath("Seoul", "Beijing");
+		PathCreator.createPath("Beijing", "Tokyo");
+
 		try{
-			System.out.println(records.getPath(records.getCityFromName(args[0]),  records.getCityFromName(args[1])));	
-		} catch(CityNotFoundException exc){
-			System.out.println(exc.message);
-		} catch(NullPointerException e){
-			System.out.println(false);
+			System.out.println( PathRecords.hasDirectPath(
+				CityRecords.getCityFromName(args[0]), CityRecords.getCityFromName(args[1])
+			));
+		} catch(CityNotFoundException e) {
+			System.out.println(e.message);
 		}
 	}
+
+
+	public static String getFileContent(String fileName) throws IOException {
+		File file = new File(fileName);
+		int fileLength = (int)file.length();
+		char[] fileData = new char[fileLength];		
+		FileReader fr = new FileReader(file);
+		BufferedReader br = new BufferedReader(fr);
+		br.read(fileData, 0, fileLength);
+		return new String(fileData);
+	}
 }
+
+
+// version 4
+
+
+// String option = args[0];
+		// String fileName = args[1];
+		// String pathFrom = args[2];
+		// String pathTo = args[3];
+		// String fileContent;
+		// if(option.equals("-f"))
+		// try{
+		// 	fileContent = Paths.getFileContent(fileName);
+		// }catch(IOException e){
+		// 	System.out.println("Invalid DataBase File");
+		// 	return;
+		// }
+		// else {System.out.println("Invalid Option"); return;}
+
+		// String[] paths = fileContent.split("\r\n");
+		// for(String path: paths) {
+			
+		// }
 
 
 

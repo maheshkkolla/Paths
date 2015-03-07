@@ -9,18 +9,22 @@ public class Records {
 		return (allPaths.contains(new Path(from, to)) || allPaths.contains(new Path(to, from)));
 	}
 
-	public void addCityToRecords(City city) {
-		allCities.add(city);
+	public void addCityToRecords(String city) {
+		allCities.add(new City(city));
 	}
 
-	public void addPath(City from, City to) {
+	public void addPath(String from, String to) {
 		if(!isCityPresent(from)) addCityToRecords(from);
 		if(!isCityPresent(to)) addCityToRecords(to);
-		allPaths.add(new Path(from, to));
+		try {
+			allPaths.add(new Path(getCityFromName(from), getCityFromName(to)));
+		} catch(CityNotFoundException e) {
+
+		}
 	}
 
-	public Boolean isCityPresent(City city) {
-		return allCities.contains(city);
+	public Boolean isCityPresent(String city) {
+		return allCities.contains(new City(city));
 	}
 
 	public List<Path> getAllPathsFrom(City city) {

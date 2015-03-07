@@ -1,4 +1,3 @@
-Banglore,Singapore,Seoul,Beijing,Tokyo,Dubai
 Banglore,Singapore
 Singapore,Seoul
 Singapore,Dubai
