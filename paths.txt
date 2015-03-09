@@ -1,4 +1,4 @@
-Banglore,Singapore
+Bangalore,Singapore
 Singapore,Seoul
 Singapore,Dubai
 Seoul,Beijing
