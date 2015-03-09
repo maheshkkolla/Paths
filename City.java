@@ -1,7 +1,13 @@
 public class City {
 	String name;
+	String country;
 	City(String name) {
 		this.name = name;
+	}
+
+	City(String name, String country) {
+		this.name = name;
+		this.country = country;
 	}
 
 	public boolean equals(Object cityArgs) {
@@ -9,6 +15,7 @@ public class City {
 		return this.name.equals(city.name);
 	}
 	public String toString(){
-		return name;	
+		if(country == null) return name;
+		return name + "[" + country + "]";	
 	}
 }
