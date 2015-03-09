@@ -38,4 +38,37 @@ class PathRecords {
 		return hasDirectOrLinkedPath(from, to, travesedPath);
 	}	
 
+	public static List<City> findDirectOrLinkedPath(City from, City to, List<City> travesedPath) {
+		if(hasDirectPath(from, to)) {
+			travesedPath.add(to);
+			return travesedPath;
+		}
+		List<Path> pathsFrom = getPathsFrom(from);
+		for (Path path: pathsFrom) {
+			if(!travesedPath.contains(path.to)){
+				travesedPath.add(path.to);
+				if(findDirectOrLinkedPath(path.to , to, travesedPath) != null) return travesedPath;
+			}	
+		}
+		return null;
+	}
+
+	// public static List<City> findPathBetweenCities(City from, City to) {
+	// 	List<City> travesedPath = new ArrayList<City>();
+	// 	return findDirectOrLinkedPath(from, to, travesedPath);
+	// 	return travesedPath;
+	// }
+
+	public static String findPath(City from, City to) {
+		if(from.equals(to)) return from.toString() + " -> " + to.toString();
+		List<City> pathBetweenCities = findDirectOrLinkedPath(from,to, (List<City>)new ArrayList<City>());
+		pathBetweenCities.add(0,from);
+		String resultPath = new String();
+		for (City city: pathBetweenCities ) {
+			if(!resultPath.equals("")) resultPath += " -> ";
+			resultPath += city.toString();
+		}
+		return resultPath;
+	}
+
 }

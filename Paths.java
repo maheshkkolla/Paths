@@ -10,7 +10,7 @@ public class Paths {
 		PathCreator.createPath("Beijing", "Tokyo");
 
 		try{
-			System.out.println( PathRecords.hasPath(
+			System.out.println( PathRecords.findPath(
 				CityRecords.getCityFromName(args[0]), CityRecords.getCityFromName(args[1])
 			));
 		} catch(CityNotFoundException e) {

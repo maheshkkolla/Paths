@@ -9,6 +9,6 @@ public class City {
 		return this.name.equals(city.name);
 	}
 	public String toString(){
-		return name;
+		return name;	
 	}
 }
