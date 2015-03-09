@@ -5,6 +5,7 @@ public class PathCreator  {
 		City city2 = getCityFromCityRecords(to);
 		Path path = new Path(city1, city2);
 		PathRecords.addNewPath(path);
+		PathRecords.addNewPath(new Path(city2, city1));
 		return path;
 	}
 

@@ -8,4 +8,7 @@ public class City {
 		City city = (City)cityArgs;
 		return this.name.equals(city.name);
 	}
+	public String toString(){
+		return name;
+	}
 }
