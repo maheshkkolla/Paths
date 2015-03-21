@@ -30,9 +30,26 @@ class PathRecords {
         if(from.equals(to) || hasDirectPath(from, to))
             return getDirectPath(from, to);
 //        makeLinkedPaths();
-        List<String> pathsInStrings = getPathsAsString(getAllPaths(from, to));
-        if(pathsInStrings.size() == 0) pathsInStrings = getReversePathsAsString(getAllPaths(to, from));
+        List<Path> allPossiblePaths = getSortedPathList(getAllPaths(from, to));
+        List<String> pathsInStrings = getPathsAsString(allPossiblePaths);
+        if(pathsInStrings.size() == 0) {
+            allPossiblePaths = getSortedPathList(getAllPaths(to,from));
+            pathsInStrings = getReversePathsAsString(allPossiblePaths);
+        }
         return pathsInStrings;
+    }
+
+    private static List<Path> getSortedPathList(List<Path> allPaths) {
+        for (int i=0;i<allPaths.size();i++){
+            for(int j=0; j<allPaths.size()-1;j++){
+                if(allPaths.get(j).cost > allPaths.get(j+1).cost){
+                    Path temp = allPaths.get(j);
+                    allPaths.remove(j);
+                    allPaths.add(j+1,temp);
+                }
+            }
+        }
+        return allPaths;
     }
 
     public static void makeLinkedPaths() {
