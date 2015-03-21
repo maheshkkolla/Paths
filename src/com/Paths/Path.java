@@ -7,10 +7,12 @@ public class Path {
 	City from;
 	City to;
     List<City> connectors;
-	Path (City from, City to, List<City>connectors) {
+    int cost;
+	Path (City from, City to, List<City>connectors, int cost) {
 		this.from = from;
 		this.to = to;
         this.connectors = connectors;
+        this.cost = cost;
 	}
 
 	public boolean equals(Object pathArg) {

@@ -13,7 +13,7 @@ class PathRecords {
 
 
 	public static Boolean hasDirectPath(City from, City to) {
-		return (paths.contains(new Path(from, to, null))) || (paths.contains(new Path(to, from, null)));
+		return (paths.contains(new Path(from, to, null,0))) || (paths.contains(new Path(to, from, null,0)));
 	}
 
 	public static List<Path> getPathsFrom(City city) {
@@ -29,16 +29,17 @@ class PathRecords {
     public static List<String> findAllPaths(City from, City to){
         if(from.equals(to) || hasDirectPath(from, to))
             return getDirectPath(from, to);
-        makeLinkedPaths();
+//        makeLinkedPaths();
         List<String> pathsInStrings = getPathsAsString(getAllPaths(from, to));
         if(pathsInStrings.size() == 0) pathsInStrings = getReversePathsAsString(getAllPaths(to, from));
         return pathsInStrings;
     }
 
-    private static void makeLinkedPaths() {
-        List<Path> directPaths = getAllDirectPaths();
+    public static void makeLinkedPaths() {
+        List<Path> directPaths = new ArrayList<Path>();
+        directPaths.addAll(paths);
         for (Path eachDirectPath:directPaths){
-            createLinkedPaths(eachDirectPath.from, eachDirectPath.to);
+            createLinkedPaths(eachDirectPath.from, eachDirectPath.to, eachDirectPath.connectors, eachDirectPath.cost);
         }
     }
 
@@ -47,6 +48,7 @@ class PathRecords {
         for (Path path: resultPaths) {
             String stringPath = path.to.toString() + " -> "
                     + getConnectorsAsReverseString(path.connectors) + " -> " + path.from.toString();
+            stringPath += "\n Total Cost: " + path.cost;
             pathsInStrings.add(stringPath);
         }
         return pathsInStrings;
@@ -66,6 +68,7 @@ class PathRecords {
         for(Path path: resultPaths) {
             String stringPath = path.from.toString() + " -> "
                     + getConnectorsAsString(path.connectors) + " -> " + path.to.toString();
+            stringPath += "\n Total Cost: " + path.cost;
             pathsInStrings.add(stringPath);
         }
         return pathsInStrings;
@@ -121,13 +124,34 @@ class PathRecords {
         return pathsTo;
     }
 
-    public static void createLinkedPaths(City from, City to) {
+    public static void createLinkedPathsFrom(City from, City to, List<City> preConnectors, int cost) {
+        List<Path> fromPaths = getPathsFrom(to);
+        for (Path path: fromPaths){
+            List<City> connectors = new ArrayList<City>();
+            if(preConnectors != null) connectors.addAll(preConnectors);
+            connectors.add(path.from);
+            if(path.connectors != null) connectors.addAll(path.connectors);
+            Path newLinkedPath = new Path(from, path.to, connectors, cost+path.cost);
+            if(!paths.contains(newLinkedPath))
+                addNewPath(newLinkedPath);
+        }
+    }
+
+    public static void createLinkedPaths(City from, City to, List<City> preConnectors, int cost) {
+        createLinkedPathsTo(from, to, preConnectors,cost);
+        createLinkedPathsFrom(from,to,preConnectors, cost);
+    }
+
+    private static void createLinkedPathsTo(City from, City to, List<City> preConnectors, int cost) {
         List<Path> linkedPaths = getLinkedPathsTo(from);
         for (Path linkedPath: linkedPaths){
             List<City> connectors = new ArrayList<City>();
             if(linkedPath.connectors != null)connectors.addAll(linkedPath.connectors);
             connectors.add(linkedPath.to);
-            addNewPath(new Path(linkedPath.from, to, connectors));
+            if(preConnectors != null) connectors.addAll(preConnectors);
+            Path newLinkedPath = new Path(linkedPath.from, to, connectors, cost+linkedPath.cost);
+            if(!paths.contains(newLinkedPath))
+                addNewPath(newLinkedPath);
         }
     }
 

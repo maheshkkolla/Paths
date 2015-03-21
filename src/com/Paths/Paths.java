@@ -72,7 +72,8 @@ public class Paths {
 		String[] paths = fileContent.split("\r\n");
 		for(String path: paths) {
 			String[] cities = path.split(",");
-			PathCreator.createPath(cities[0], cities[1]);
+            int cost = Integer.parseInt(cities[2]);
+			PathCreator.createPath(cities[0], cities[1], cost);
 		}
 	}
 

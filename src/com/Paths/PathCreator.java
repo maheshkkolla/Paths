@@ -5,15 +5,15 @@ import java.util.List;
 
 public class PathCreator  {
 
-	public static Path createPath(String from, String to){
+	public static Path createPath(String from, String to, int cost){
 		City city1 = getCityFromCityRecords(from);
 		City city2 = getCityFromCityRecords(to);
 //		Path path = new Path(city1, city2);
 //		PathRecords.addNewPath(path);
 //		PathRecords.addNewPath(new Path(city2, city1));
-        Path path = new Path(city1, city2,null);
+        Path path = new Path(city1, city2,null, cost);
         PathRecords.addNewPath(path);
-//        createLinkedPaths(city1, city2);
+        PathRecords.makeLinkedPaths();
 		return path;
 	}
 
